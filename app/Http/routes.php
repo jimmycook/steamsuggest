@@ -3,14 +3,15 @@
 use App\Steam\Client as Client;
 
 Route::get('/', function (Client $client) {
-    return 'hello, world';
-    
     // $steamid = $client->getSteamId('Jimmypq');
     // $user = $client->getPlayerSummary($steamid);
 
     // return view('home', ['user' => $user]);
 });
 
+Route::get('proto', function() {
+    return view('proto');
+});
 
 Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
 

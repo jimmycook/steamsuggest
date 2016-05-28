@@ -25,7 +25,7 @@ class Client {
     }
 
     public function getPlayerSummary($steamid) {
-        
+
         $this->call('ISteamUser', 'GetPlayerSummaries', '0002', ['steamids' => $steamid]);
 
         return $this->getData()->players[0];
@@ -42,7 +42,7 @@ class Client {
             throw new \Exception('No response');
         }
 
-        return $this->response->body->response;        
+        return $this->response->body->response;
     }
 
     /**
