@@ -20,8 +20,15 @@ class Client {
 
     public function getSteamId($vanityurl) {
         $this->call('ISteamUser', 'ResolveVanityURL', '0001', ['vanityurl' => $vanityurl]);
+        if (isset($this->getData()->steamid))
+            return $this->getData()->steamid;
+        return false;
+    }
 
-        return $this->getData()->steamid;
+    public function getOwnedGames($steamid) {
+        $this->call('IPlayerService', 'GetOwnedGames', '0001', ['steamid' => $steamid]);
+
+        return $this->getData();
     }
 
     public function getPlayerSummary($steamid) {
@@ -63,6 +70,14 @@ class Client {
         $uri .= "key=$this->key";
 
         return $this->response = $this->execute($uri);
+    }
+
+    public function getUrl() {
+        return $this->url;
+    }
+
+    public function getKey() {
+        return $this->key;
     }
 
     /**
