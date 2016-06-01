@@ -2,5 +2,4 @@
 
 return [
     'key' => env('STEAM_KEY'),
-
 ];
