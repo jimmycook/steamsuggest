@@ -21,8 +21,13 @@ new Vue({
   },
 
   events: {
-    'set-player': function (player) {
-      this.$data.player = player;
+
+    'find-player' (vanity) {
+      console.log(vanity, "Searching for this player")
+
+      this.$http.get(`/api/player/${vanity}`).then(
+        (res) => {this.player = res.data},
+        (res) => console.log('Something went wrong...'))
     }
   }
 })

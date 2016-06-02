@@ -15,18 +15,11 @@ export default {
     props: ['player'],
 
     ready() {
-        console.log('It worked');
+        console.log
     },
 
     methods: {
-        setPlayer() {
-            const player = {
-                name: 'yer maw'
-            }
 
-            this.$dispatch('set-player', player)
-
-        }
     }
 }
 </script>

@@ -2,12 +2,12 @@
 
 use App\Steam\Client as Client;
 
-Route::get('/', function (Client $client) {
-    // $steamid = $client->getSteamId('Jimmypq');
-    // $user = $client->getPlayerSummary($steamid);
-
-    // return view('home', ['user' => $user]);
-});
+// Route::get('/', function (Client $client) {
+//     // $steamid = $client->getSteamId('Jimmypq');
+//     // $user = $client->getPlayerSummary($steamid);
+//
+//     // return view('home', ['user' => $user]);
+// });
 
 Route::get('/', function() {
 
@@ -16,13 +16,13 @@ Route::get('/', function() {
     return view('home');
 });
 
-Route::get('/dashboard', function() {
-    return view('dashboard');
-});
-
-Route::get('/login', function() {
-    return view('login');
-});
+// Route::get('/dashboard', function() {
+//     return view('dashboard');
+// });
+//
+// Route::get('/login', function() {
+//     return view('login');
+// });
 
 Route::get('/search', function () {
     return view('search');
@@ -63,7 +63,7 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
     });
 
 	Route::get('player/{name}', function ($name, Client $client) {
-        $steamid = $client->getSteamId('Jimmypq');
+        $steamid = $client->getSteamId($name);
         $player = $client->getPlayerSummary($steamid);
         return json_encode($player);
 	});

@@ -12141,8 +12141,16 @@ new _Vue2.default({
   },
 
   events: {
-    'set-player': function setPlayer(player) {
-      this.$data.player = player;
+    'find-player': function findPlayer(vanity) {
+      var _this = this;
+
+      console.log(vanity, "Searching for this player");
+
+      this.$http.get('/api/player/' + vanity).then(function (res) {
+        _this.player = res.data;
+      }, function (res) {
+        return console.log('Something went wrong...');
+      });
     }
   }
 });
@@ -12168,7 +12176,7 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"vue":4,"vue-hot-reload-api":2}],8:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n\n@-webkit-keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n@-moz-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@-o-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n\n.m-progress[_v-762ad3b0] {\n    position: relative;\n    opacity: .8;\n    color: transparent !important;\n    text-shadow: none !important;\n}\n\n.m-progress[_v-762ad3b0]:hover,\n.m-progress[_v-762ad3b0]:active,\n.m-progress[_v-762ad3b0]:focus {\n    cursor: default;\n    color: transparent;\n    outline: none !important;\n    box-shadow: none;\n}\n\n.m-progress[_v-762ad3b0]:before {\n    content: '';\n\n    display: inline-block;\n\n    position: absolute;\n    background: transparent;\n    border: 1px solid #fff;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n    border-radius: 50%;\n\n    box-sizing: border-box;\n\n    top: 50%;\n    left: 50%;\n    margin-top: -12px;\n    margin-left: -12px;\n\n    width: 24px;\n    height: 24px;\n\n    -webkit-animation: ld 1s ease-in-out infinite;\n    -moz-animation:    ld 1s ease-in-out infinite;\n    -o-animation:      ld 1s ease-in-out infinite;\n    animation:         ld 1s ease-in-out infinite;\n}\n\n.btn-default.m-progress[_v-762ad3b0]:before {\n    border-left-color: #333333;\n    border-right-color: #333333;\n}\n\n.btn-lg.m-progress[_v-762ad3b0]:before {\n    margin-top: -16px;\n    margin-left: -16px;\n\n    width: 32px;\n    height: 32px;\n}\n\n.btn-sm.m-progress[_v-762ad3b0]:before {\n    margin-top: -9px;\n    margin-left: -9px;\n\n    width: 18px;\n    height: 18px;\n}\n\n.btn-xs.m-progress[_v-762ad3b0]:before {\n    margin-top: -7px;\n    margin-left: -7px;\n\n    width: 14px;\n    height: 14px;\n}\n\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12178,52 +12186,48 @@ exports.default = {
   data: function data() {
     return {
       query: "",
-      storedQuery: "",
-      response: { status: false },
-      submitted: false
+      message: "",
+      dispatched: false
     };
   },
+
   computed: {
-    message: function message() {
-      if (this.$data.response.status && this.submitted) {
-        return "'" + this.$data.storedQuery + "' has played " + this.$data.response.played + ' out of ' + this.$data.response.games + " available games.";
+    searching: function searching() {
+      if (this.dispatched && !this.player) {
+        return true;
       }
+      return false;
+    }
+  },
+
+  props: {
+    player: {
+      default: null
     }
   },
 
   methods: {
-    clear: function clear() {
-
-      if (this.$data.response) {
-        this.$data.response = { status: false };
-        this.$data.submitted = false;
-      }
-    },
     search: function search() {
-      var _this = this;
+      // dispatch the search event
+      this.$dispatch('find-player', this.query);
+      this.dispatched = true;
+    }
+  },
 
-      this.$http.get('/api/' + this.$data.query + '/gamesplayed').then(function (response) {
-        if (response.data.status) {
-          _this.$data.storedQuery = _this.$data.query;
-          _this.$data.response = response.data;
-          _this.$data.submitted = true;
-        } else {
-          _this.$data.response = { status: false };
-        }
-      }, function (response) {
-        return console.log('whoops');
-      });
+  events: {
+    'player-set': function playerSet() {
+      this.dispatch = false;
     }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div _v-762ad3b0=\"\">\n  <form _v-762ad3b0=\"\">\n    <input type=\"text\" class=\"search-box\" placeholder=\"Please enter your steam vanity name\" @submit.prevent=\"search()\" v-model=\"query\" _v-762ad3b0=\"\">\n    <button type=\"submit\" class=\"btn btn-block btn-primary\" @click.prevent=\"search()\" _v-762ad3b0=\"\">Go</button>\n  </form>\n  <h3 _v-762ad3b0=\"\">{{ message }}</h3>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div _v-762ad3b0=\"\">\n  <form _v-762ad3b0=\"\">\n    <input type=\"text\" class=\"search-box\" placeholder=\"Please enter your steam vanity name\" @submit.prevent=\"search()\" v-model=\"query\" _v-762ad3b0=\"\">\n    <button type=\"submit\" class=\"btn btn-block btn-primary\" @click.prevent=\"search()\" :class=\"searching ? 'm-progress' : ''\" _v-762ad3b0=\"\">\n      <span v-show=\"!searching\" _v-762ad3b0=\"\">Go</span>\n    </button>\n  </form>\n  <pre _v-762ad3b0=\"\">{{ player | json 4 }}</pre>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n"] = false
+    __vueify_insert__.cache["\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n\n@-webkit-keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n@-moz-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@-o-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n\n.m-progress[_v-762ad3b0] {\n    position: relative;\n    opacity: .8;\n    color: transparent !important;\n    text-shadow: none !important;\n}\n\n.m-progress[_v-762ad3b0]:hover,\n.m-progress[_v-762ad3b0]:active,\n.m-progress[_v-762ad3b0]:focus {\n    cursor: default;\n    color: transparent;\n    outline: none !important;\n    box-shadow: none;\n}\n\n.m-progress[_v-762ad3b0]:before {\n    content: '';\n\n    display: inline-block;\n\n    position: absolute;\n    background: transparent;\n    border: 1px solid #fff;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n    border-radius: 50%;\n\n    box-sizing: border-box;\n\n    top: 50%;\n    left: 50%;\n    margin-top: -12px;\n    margin-left: -12px;\n\n    width: 24px;\n    height: 24px;\n\n    -webkit-animation: ld 1s ease-in-out infinite;\n    -moz-animation:    ld 1s ease-in-out infinite;\n    -o-animation:      ld 1s ease-in-out infinite;\n    animation:         ld 1s ease-in-out infinite;\n}\n\n.btn-default.m-progress[_v-762ad3b0]:before {\n    border-left-color: #333333;\n    border-right-color: #333333;\n}\n\n.btn-lg.m-progress[_v-762ad3b0]:before {\n    margin-top: -16px;\n    margin-left: -16px;\n\n    width: 32px;\n    height: 32px;\n}\n\n.btn-sm.m-progress[_v-762ad3b0]:before {\n    margin-top: -9px;\n    margin-left: -9px;\n\n    width: 18px;\n    height: 18px;\n}\n\n.btn-xs.m-progress[_v-762ad3b0]:before {\n    margin-top: -7px;\n    margin-left: -7px;\n\n    width: 14px;\n    height: 14px;\n}\n\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -12233,7 +12237,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],9:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -12248,19 +12252,11 @@ exports.default = {
     props: ['player'],
 
     ready: function ready() {
-        console.log('It worked');
+        console.log;
     },
 
 
-    methods: {
-        setPlayer: function setPlayer() {
-            var player = {
-                name: 'yer maw'
-            };
-
-            this.$dispatch('set-player', player);
-        }
-    }
+    methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    Suggested Game Here\n</div>\n"
