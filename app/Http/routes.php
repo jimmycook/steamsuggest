@@ -1,13 +1,13 @@
 <?php
 
 use App\Steam\Client as Client;
-//
-// Route::get('/', function (Client $client) {
-//     // $steamid = $client->getSteamId('Jimmypq');
-//     // $user = $client->getPlayerSummary($steamid);
-//
-//     // return view('home', ['user' => $user]);
-// });
+
+Route::get('/', function (Client $client) {
+    // $steamid = $client->getSteamId('Jimmypq');
+    // $user = $client->getPlayerSummary($steamid);
+
+    // return view('home', ['user' => $user]);
+});
 
 Route::get('/', function() {
 
@@ -16,13 +16,13 @@ Route::get('/', function() {
     return view('home');
 });
 
-// Route::get('/dashboard', function() {
-//     return view('dashboard');
-// });
-//
-// Route::get('/login', function() {
-//     return view('login');
-// });
+Route::get('/dashboard', function() {
+    return view('dashboard');
+});
+
+Route::get('/login', function() {
+    return view('login');
+});
 
 Route::get('/search', function () {
     return view('search');
@@ -33,12 +33,13 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
     Route::get('{name}/gamesplayed', function ($name, Client $client) {
         // Get steam id
         $steamid = $client->getSteamId($name);
-        // dd($steamid);
+
         if (!$steamid) {
             return json_encode(["status" => false]);
         }
+
         $ownedGames = $client->getOwnedGames($steamid);
-        
+
         if ($ownedGames->game_count < 1) {
             return json_encode(["status" => false]);
         }
@@ -61,10 +62,10 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
         return json_encode($response);
     });
 
-	// Route::get('player/{name}', function ($name, Client $client) {
-    //     $steamid = $client->getSteamId('Jimmypq');
-    //     $user = $client->getPlayerSummary($steamid);
-    //     return json_encode($user);
-	// });
+	Route::get('player/{name}', function ($name, Client $client) {
+        $steamid = $client->getSteamId('Jimmypq');
+        $player = $client->getPlayerSummary($steamid);
+        return json_encode($player);
+	});
 
 });

@@ -12116,6 +12116,14 @@ var _playedSearch = require('./components/played-search.vue');
 
 var _playedSearch2 = _interopRequireDefault(_playedSearch);
 
+var _avatarBox = require('./components/avatar-box.vue');
+
+var _avatarBox2 = _interopRequireDefault(_avatarBox);
+
+var _suggestedGame = require('./components/suggested-game.vue');
+
+var _suggestedGame2 = _interopRequireDefault(_suggestedGame);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _Vue2.default.use(require('vue-resource')); // import bootstrap from 'bootstrap'
@@ -12123,17 +12131,44 @@ _Vue2.default.use(require('vue-resource')); // import bootstrap from 'bootstrap'
 new _Vue2.default({
   el: '#app',
   components: {
+    'suggested-game': _suggestedGame2.default,
+    'avatar-box': _avatarBox2.default,
     'played-search': _playedSearch2.default
   },
 
   data: {
-    message: 'Hello Vue.js!'
+    player: null
+  },
+
+  events: {
+    'set-player': function setPlayer(player) {
+      this.$data.player = player;
+    }
   }
 });
 
-},{"./components/played-search.vue":7,"Vue":4,"vue-resource":3}],7:[function(require,module,exports){
-var __vueify_insert__ = require("/Users/jimmycook/Sites/toplay/node_modules/vueify/lib/insert-css.js")
-var __vueify_style__ = __vueify_insert__.insert("\n.search-box[_v-1c2cfc56] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-1c2cfc56] {\n  margin-top: 10px;\n}\n\nh3[_v-1c2cfc56] {\n  text-align: center;\n  padding-top: 10px;\n}\n")
+},{"./components/avatar-box.vue":7,"./components/played-search.vue":8,"./components/suggested-game.vue":9,"Vue":4,"vue-resource":3}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    Avatar box\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-2bbd8a81", module.exports)
+  } else {
+    hotAPI.update("_v-2bbd8a81", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2}],8:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12182,22 +12217,63 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<form _v-1c2cfc56=\"\">\n  <input type=\"text\" class=\"search-box\" placeholder=\"Please enter your steam vanity name\" @submit.prevent=\"search()\" v-model=\"query\" _v-1c2cfc56=\"\">\n  <button type=\"submit\" class=\"btn btn-block btn-primary\" @click.prevent=\"search()\" _v-1c2cfc56=\"\">Go</button>\n</form>\n<h3 _v-1c2cfc56=\"\">{{ message }}</h3>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div _v-762ad3b0=\"\">\n  <form _v-762ad3b0=\"\">\n    <input type=\"text\" class=\"search-box\" placeholder=\"Please enter your steam vanity name\" @submit.prevent=\"search()\" v-model=\"query\" _v-762ad3b0=\"\">\n    <button type=\"submit\" class=\"btn btn-block btn-primary\" @click.prevent=\"search()\" _v-762ad3b0=\"\">Go</button>\n  </form>\n  <h3 _v-762ad3b0=\"\">{{ message }}</h3>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("/Users/jimmycook/Sites/toplay/node_modules/vue-hot-reload-api/index.js")
+  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jimmycook/Sites/toplay/resources/assets/js/components/played-search.vue"
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.search-box[_v-1c2cfc56] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-1c2cfc56] {\n  margin-top: 10px;\n}\n\nh3[_v-1c2cfc56] {\n  text-align: center;\n  padding-top: 10px;\n}\n"] = false
+    __vueify_insert__.cache["\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
+    hotAPI.createRecord("_v-762ad3b0", module.exports)
   } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-762ad3b0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"/Users/jimmycook/Sites/toplay/node_modules/vue-hot-reload-api/index.js":2,"/Users/jimmycook/Sites/toplay/node_modules/vueify/lib/insert-css.js":5,"vue":4}]},{},[6]);
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            message: "Hello world"
+        };
+    },
+
+    props: ['player'],
+
+    ready: function ready() {
+        console.log('It worked');
+    },
+
+
+    methods: {
+        setPlayer: function setPlayer() {
+            var player = {
+                name: 'yer maw'
+            };
+
+            this.$dispatch('set-player', player);
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    Suggested Game Here\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-044a0806", module.exports)
+  } else {
+    hotAPI.update("_v-044a0806", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2}]},{},[6]);
 
 //# sourceMappingURL=app.js.map

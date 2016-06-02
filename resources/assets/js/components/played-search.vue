@@ -1,13 +1,15 @@
 <template>
-  <form>
-    <input type="text"
-    class="search-box"
-    placeholder="Please enter your steam vanity name"
-    @submit.prevent="search()"
-    v-model="query">
-    <button type="submit" class="btn btn-block btn-primary" @click.prevent="search()">Go</button>
-  </form>
-  <h3>{{ message }}</h3>
+  <div>
+    <form>
+      <input type="text"
+      class="search-box"
+      placeholder="Please enter your steam vanity name"
+      @submit.prevent="search()"
+      v-model="query">
+      <button type="submit" class="btn btn-block btn-primary" @click.prevent="search()">Go</button>
+    </form>
+    <h3>{{ message }}</h3>
+  </div>
 </template>
 
 <script>
