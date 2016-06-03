@@ -5,7 +5,7 @@
     </div>
     <div class="avatar-box--info">
         <h2>{{ player.personaname }}</h2>
-        <p>{{ status.capitalize() }}</p>
+        <p>{{ status.() }}</p>
     </div>
 </div>
 </template>
