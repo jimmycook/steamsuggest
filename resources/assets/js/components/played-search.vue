@@ -8,12 +8,10 @@
       v-model="query">
       <button type="submit"
               class="btn btn-block btn-primary"
-              @click.prevent="search()"
-              :class="searching ? 'm-progress' : ''">
-        <span v-show="!searching">Go</span>
+              @click.prevent="search()">
+        {{ searching ? 'Go' : 'Loading...' }}
       </button>
     </form>
-    <pre>{{ player | json 4 }}</pre>
   </div>
 </template>
 

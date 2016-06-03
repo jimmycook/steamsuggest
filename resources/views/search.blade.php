@@ -5,11 +5,14 @@
     @include('partials.navbar')
 
     <div class="container">
-        {{-- <avatar-box></avatar-box> --}}
-        <played-search :player="player"></played-search>
+        <played-search :player="player" v-show="!player"></played-search>
         {{-- <suggested-game :player.sync="player"></suggested-game> --}}
-        <br>
+        <div v-show="player">
+            <avatar-box :player="player"></avatar-box>
 
+        </div>
     </div>
-
+    <pre>
+        @{{ player | json 4}}
+    </pre>
 @endsection

@@ -20,6 +20,11 @@ new Vue({
     player: null
   },
 
+  ready () {
+    console.log('ay')
+    this.$dispatch('find-player', 'Jimmypq')
+  },
+
   events: {
 
     'find-player' (vanity) {
