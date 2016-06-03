@@ -10,9 +10,7 @@
         <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>
-        <div id="app">
-            @yield('body')
-        </div>
+        @yield('body')
 
         <script type="text/javascript" src="/js/app.js"></script>
     </body>

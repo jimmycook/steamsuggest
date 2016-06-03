@@ -1,11 +1,11 @@
 <template>
-<div class="avatar-box" v-show="player" >
-    <div class="avatar-box--image">
+<div class="avatar-box" v-if="player" >
+    <div class="avatar-box--image avatar-box--image-{{ player.status }}">
         <img :src="player.avatarfull" alt="Player avatar">
     </div>
     <div class="avatar-box--info">
         <h2>{{ player.personaname }}</h2>
-        <p>{{ status.() }}</p>
+        <p>{{ status.charAt(0).toUpperCase() + status.slice(1) }}</p>
     </div>
 </div>
 </template>
@@ -19,22 +19,11 @@ export default {
     },
 
     computed: {
+
         status () {
-            if (!this.player) {
-                return 'nope'
-            }
+            if (!this.player) return;
 
-            const state = this.player.personastate
-
-            // 0 - Offline,
-            // 1 - Online,
-            // 2 - Busy,
-            // 3 - Away,
-            // 4 - Snooze,
-            // 5 - looking to trade,
-            // 6 - looking to play.
-
-            switch (state) {
+            switch (this.player.personastate) {
                 case 0:
                     return 'offline'
                     break
@@ -52,6 +41,7 @@ export default {
 
             }
         }
+
     }
 }
 </script>
@@ -63,10 +53,9 @@ export default {
 
     display: flex;
 
-    img {
-        width: 140px;
-        height: 140px;
-        margin: 10px
+    .avatar-box--image {
+
+        margin: 10px;
     }
 
     .avatar-box--info {

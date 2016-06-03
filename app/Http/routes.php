@@ -12,8 +12,8 @@ use App\Steam\Client as Client;
 Route::get('/', function() {
 
     //
-    return redirect('search');
-    return view('home');
+    // return redirect('search');
+    return view('router-test');
 });
 
 // Route::get('/dashboard', function() {
