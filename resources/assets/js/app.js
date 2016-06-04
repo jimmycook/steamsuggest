@@ -3,37 +3,29 @@
 import Vue from 'Vue'
 import VueRouter from 'vue-router'
 
-console.log(VueRouter)
-
 Vue.use(require('vue-resource'));
 Vue.use(VueRouter);
 
-import PlayedSearch from './components/played-search.vue'
-import AvatarBox from './components/avatar-box.vue'
-import SuggestedGame from './components/suggested-game.vue'
-
-var Foo = Vue.extend({
-    template: '<p>This is foo!</p>'
-})
-
-var Bar = Vue.extend({
-    template: '<p>This is bar!</p>'
-})
-
-var App = Vue.extend({})
+// App container component
+import App from './components/app.vue'
+// Routes
+import SearchPage from './components/search-page.vue'
+import Player from './components/player.vue'
 
 var router = new VueRouter()
 
 router.map({
-    '/foo': {
-        component: Foo
+    '/search': {
+        component: SearchPage
     },
-    '/bar': {
-        component: Bar
+    '/player/:username': {
+        component: Player
     }
+
 })
 
 router.start(App, '#app')
+
 
 // new Vue({
 //   el: '#app',

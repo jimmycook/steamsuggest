@@ -14826,49 +14826,43 @@ var _vueRouter = require('vue-router');
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _playedSearch = require('./components/played-search.vue');
+var _app = require('./components/app.vue');
 
-var _playedSearch2 = _interopRequireDefault(_playedSearch);
+var _app2 = _interopRequireDefault(_app);
 
-var _avatarBox = require('./components/avatar-box.vue');
+var _searchPage = require('./components/search-page.vue');
 
-var _avatarBox2 = _interopRequireDefault(_avatarBox);
+var _searchPage2 = _interopRequireDefault(_searchPage);
 
-var _suggestedGame = require('./components/suggested-game.vue');
+var _player = require('./components/player.vue');
 
-var _suggestedGame2 = _interopRequireDefault(_suggestedGame);
+var _player2 = _interopRequireDefault(_player);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import bootstrap from 'bootstrap'
 
-console.log(_vueRouter2.default);
-
 _Vue2.default.use(require('vue-resource'));
 _Vue2.default.use(_vueRouter2.default);
 
-var Foo = _Vue2.default.extend({
-    template: '<p>This is foo!</p>'
-});
+// App container component
 
-var Bar = _Vue2.default.extend({
-    template: '<p>This is bar!</p>'
-});
+// Routes
 
-var App = _Vue2.default.extend({});
 
 var router = new _vueRouter2.default();
 
 router.map({
-    '/foo': {
-        component: Foo
+    '/search': {
+        component: _searchPage2.default
     },
-    '/bar': {
-        component: Bar
+    '/player/:username': {
+        component: _player2.default
     }
+
 });
 
-router.start(App, '#app');
+router.start(_app2.default, '#app');
 
 // new Vue({
 //   el: '#app',
@@ -14897,9 +14891,37 @@ router.start(App, '#app');
 //   }
 // })
 
-},{"./components/avatar-box.vue":8,"./components/played-search.vue":9,"./components/suggested-game.vue":10,"Vue":5,"vue-resource":3,"vue-router":4}],8:[function(require,module,exports){
+},{"./components/app.vue":8,"./components/player.vue":12,"./components/search-page.vue":13,"Vue":5,"vue-resource":3,"vue-router":4}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navbar = require('./navbar.vue');
+
+var _navbar2 = _interopRequireDefault(_navbar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: { Navbar: _navbar2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <navbar></navbar>\n  <router-view></router-view>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-4eefbea2", module.exports)
+  } else {
+    hotAPI.update("_v-4eefbea2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./navbar.vue":11,"vue":5,"vue-hot-reload-api":2}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.avatar-box {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  /* line 8, stdin */\n  .avatar-box .avatar-box--image {\n    margin: 10px; }\n  /* line 13, stdin */\n  .avatar-box .avatar-box--info {\n    margin: 24px; }\n")
+var __vueify_style__ = __vueify_insert__.insert("/* line 6, stdin */\n.avatar-box {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  /* line 12, stdin */\n  .avatar-box .avatar-box--image {\n    border: grey solid 3px;\n    border-radius: 5px;\n    margin: 10px; }\n    /* line 17, stdin */\n    .avatar-box .avatar-box--image.avatar-box--online {\n      border-color: blue; }\n    /* line 20, stdin */\n    .avatar-box .avatar-box--image.avatar-box--playing {\n      border-color: green; }\n  /* line 25, stdin */\n  .avatar-box .avatar-box--info {\n    margin: 24px; }\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14913,8 +14935,17 @@ exports.default = {
     },
 
     computed: {
+        playing: function playing() {
+            if (this.player.gameid) {
+                console.log(this.player);
+                return this.player.gameid;
+            }
+            return false;
+        },
         status: function status() {
             if (!this.player) return;
+
+            if (this.player.gameid) return 'playing';
 
             switch (this.player.personastate) {
                 case 0:
@@ -14937,24 +14968,128 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"avatar-box\" v-if=\"player\">\n    <div class=\"avatar-box--image avatar-box--image-{{ player.status }}\">\n        <img :src=\"player.avatarfull\" alt=\"Player avatar\">\n    </div>\n    <div class=\"avatar-box--info\">\n        <h2>{{ player.personaname }}</h2>\n        <p>{{ status.charAt(0).toUpperCase() + status.slice(1) }}</p>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"avatar-box\" v-if=\"player\">\n    <div class=\"avatar-box--image\" :class=\"'avatar-box--' + status\">\n        <img :src=\"player.avatarfull\" alt=\"Player avatar\">\n    </div>\n    <div class=\"avatar-box--info\">\n        <h2>{{ player.personaname }}</h2>\n        <p>{{ status.charAt(0).toUpperCase() + status.slice(1) }}</p>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["/* line 2, stdin */\n.avatar-box {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  /* line 8, stdin */\n  .avatar-box .avatar-box--image {\n    margin: 10px; }\n  /* line 13, stdin */\n  .avatar-box .avatar-box--info {\n    margin: 24px; }\n"] = false
+    __vueify_insert__.cache["/* line 6, stdin */\n.avatar-box {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  /* line 12, stdin */\n  .avatar-box .avatar-box--image {\n    border: grey solid 3px;\n    border-radius: 5px;\n    margin: 10px; }\n    /* line 17, stdin */\n    .avatar-box .avatar-box--image.avatar-box--online {\n      border-color: blue; }\n    /* line 20, stdin */\n    .avatar-box .avatar-box--image.avatar-box--playing {\n      border-color: green; }\n  /* line 25, stdin */\n  .avatar-box .avatar-box--info {\n    margin: 24px; }\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-2bbd8a81", module.exports)
+    hotAPI.createRecord("_v-f5465d8e", module.exports)
   } else {
-    hotAPI.update("_v-2bbd8a81", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-f5465d8e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n\n@-webkit-keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n@-moz-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@-o-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n\n.m-progress[_v-762ad3b0] {\n    position: relative;\n    opacity: .8;\n    color: transparent !important;\n    text-shadow: none !important;\n}\n\n.m-progress[_v-762ad3b0]:hover,\n.m-progress[_v-762ad3b0]:active,\n.m-progress[_v-762ad3b0]:focus {\n    cursor: default;\n    color: transparent;\n    outline: none !important;\n    box-shadow: none;\n}\n\n.m-progress[_v-762ad3b0]:before {\n    content: '';\n\n    display: inline-block;\n\n    position: absolute;\n    background: transparent;\n    border: 1px solid #fff;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n    border-radius: 50%;\n\n    box-sizing: border-box;\n\n    top: 50%;\n    left: 50%;\n    margin-top: -12px;\n    margin-left: -12px;\n\n    width: 24px;\n    height: 24px;\n\n    -webkit-animation: ld 1s ease-in-out infinite;\n    -moz-animation:    ld 1s ease-in-out infinite;\n    -o-animation:      ld 1s ease-in-out infinite;\n    animation:         ld 1s ease-in-out infinite;\n}\n\n.btn-default.m-progress[_v-762ad3b0]:before {\n    border-left-color: #333333;\n    border-right-color: #333333;\n}\n\n.btn-lg.m-progress[_v-762ad3b0]:before {\n    margin-top: -16px;\n    margin-left: -16px;\n\n    width: 32px;\n    height: 32px;\n}\n\n.btn-sm.m-progress[_v-762ad3b0]:before {\n    margin-top: -9px;\n    margin-left: -9px;\n\n    width: 18px;\n    height: 18px;\n}\n\n.btn-xs.m-progress[_v-762ad3b0]:before {\n    margin-top: -7px;\n    margin-left: -7px;\n\n    width: 14px;\n    height: 14px;\n}\n\n")
+var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.overlay {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.3); }\n\n/* line 14, stdin */\n.loader:before,\n.loader:after,\n.loader {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out; }\n\n/* line 25, stdin */\n.loader {\n  color: #ffffff;\n  font-size: 10px;\n  margin: 80px auto;\n  position: relative;\n  text-indent: -9999em;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s; }\n\n/* line 37, stdin */\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s; }\n\n/* line 42, stdin */\n.loader:after {\n  left: 3.5em; }\n\n/* line 45, stdin */\n.loader:before,\n.loader:after {\n  content: '';\n  position: absolute;\n  top: 0; }\n\n@-webkit-keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n\n@keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"overlay\">\n  <div class=\"loader\">\n    Loader\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["/* line 2, stdin */\n.overlay {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.3); }\n\n/* line 14, stdin */\n.loader:before,\n.loader:after,\n.loader {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out; }\n\n/* line 25, stdin */\n.loader {\n  color: #ffffff;\n  font-size: 10px;\n  margin: 80px auto;\n  position: relative;\n  text-indent: -9999em;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s; }\n\n/* line 37, stdin */\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s; }\n\n/* line 42, stdin */\n.loader:after {\n  left: 3.5em; }\n\n/* line 45, stdin */\n.loader:before,\n.loader:after {\n  content: '';\n  position: absolute;\n  top: 0; }\n\n@-webkit-keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n\n@keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-2d5c4e16", module.exports)
+  } else {
+    hotAPI.update("_v-2d5c4e16", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-full navbar-dark bg-primary\">\n    <!-- Navbar content here -->\n</nav>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-6a01031c", module.exports)
+  } else {
+    hotAPI.update("_v-6a01031c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],12:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _loader = require('./loader.vue');
+
+var _loader2 = _interopRequireDefault(_loader);
+
+var _avatarBox = require('./avatar-box.vue');
+
+var _avatarBox2 = _interopRequireDefault(_avatarBox);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    return {
+      player: null
+
+    };
+  },
+
+  ready: function ready() {
+    var _this = this;
+
+    var username = this.$route.params.username;
+
+    if (username) {
+      this.$http.get('/api/player/' + username).then(function (res) {
+        _this.player = res.data;
+      }, function (res) {
+        return console.log('Something went wrong...');
+      });
+    }
+  },
+
+
+  components: {
+    Loader: _loader2.default, AvatarBox: _avatarBox2.default
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <div v-if=\"player\">\n    <avatar-box :player=\"player\"></avatar-box>\n    <pre>      {{ player | json 4 }}\n    </pre>\n  </div>\n  <loader v-show=\"!player\" transition=\"fade\"></loader>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-548d2cc3", module.exports)
+  } else {
+    hotAPI.update("_v-548d2cc3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./avatar-box.vue":9,"./loader.vue":10,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14964,88 +15099,30 @@ exports.default = {
   data: function data() {
     return {
       query: "",
-      message: "",
-      dispatched: false
+      warning: ""
     };
-  },
-
-  computed: {
-    searching: function searching() {
-      if (this.dispatched && !this.player) {
-        return true;
-      }
-      return false;
-    }
-  },
-
-  props: {
-    player: {
-      default: null
-    }
   },
 
   methods: {
     search: function search() {
-      // dispatch the search event
-      this.$dispatch('find-player', this.query);
-      this.dispatched = true;
-    }
-  },
-
-  events: {
-    'player-set': function playerSet() {
-      this.dispatch = false;
+      if (this.query) {
+        this.$router.go("/player/" + this.query);
+      } else {
+        this.warning = 'Please enter a search query';
+      }
     }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div _v-762ad3b0=\"\">\n  <form _v-762ad3b0=\"\">\n    <input type=\"text\" class=\"search-box\" placeholder=\"Please enter your steam vanity name\" @submit.prevent=\"search()\" v-model=\"query\" _v-762ad3b0=\"\">\n    <button type=\"submit\" class=\"btn btn-block btn-primary\" @click.prevent=\"search()\" _v-762ad3b0=\"\">\n      {{ searching ? 'Go' : 'Loading...' }}\n    </button>\n  </form>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.search-box[_v-762ad3b0] {\n  width: 100%;\n  margin: auto;\n  height: 45px;\n  margin-top: 10px;\n  padding: 3px 10px;\n}\n\n.btn[_v-762ad3b0] {\n  margin-top: 10px;\n}\n\nh3[_v-762ad3b0] {\n  text-align: center;\n  padding-top: 10px;\n}\n\n@-webkit-keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n@-moz-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@-o-keyframes ld {\n  0%   { transform: rotate(0deg) scale(1); }\n  50%  { transform: rotate(180deg) scale(1.1); }\n  100% { transform: rotate(360deg) scale(1); }\n}\n@keyframes ld {\n  0%   { -webkit-transform: rotate(0deg) scale(1); transform: rotate(0deg) scale(1); }\n  50%  { -webkit-transform: rotate(180deg) scale(1.1); transform: rotate(180deg) scale(1.1); }\n  100% { -webkit-transform: rotate(360deg) scale(1); transform: rotate(360deg) scale(1); }\n}\n\n.m-progress[_v-762ad3b0] {\n    position: relative;\n    opacity: .8;\n    color: transparent !important;\n    text-shadow: none !important;\n}\n\n.m-progress[_v-762ad3b0]:hover,\n.m-progress[_v-762ad3b0]:active,\n.m-progress[_v-762ad3b0]:focus {\n    cursor: default;\n    color: transparent;\n    outline: none !important;\n    box-shadow: none;\n}\n\n.m-progress[_v-762ad3b0]:before {\n    content: '';\n\n    display: inline-block;\n\n    position: absolute;\n    background: transparent;\n    border: 1px solid #fff;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n    border-radius: 50%;\n\n    box-sizing: border-box;\n\n    top: 50%;\n    left: 50%;\n    margin-top: -12px;\n    margin-left: -12px;\n\n    width: 24px;\n    height: 24px;\n\n    -webkit-animation: ld 1s ease-in-out infinite;\n    -moz-animation:    ld 1s ease-in-out infinite;\n    -o-animation:      ld 1s ease-in-out infinite;\n    animation:         ld 1s ease-in-out infinite;\n}\n\n.btn-default.m-progress[_v-762ad3b0]:before {\n    border-left-color: #333333;\n    border-right-color: #333333;\n}\n\n.btn-lg.m-progress[_v-762ad3b0]:before {\n    margin-top: -16px;\n    margin-left: -16px;\n\n    width: 32px;\n    height: 32px;\n}\n\n.btn-sm.m-progress[_v-762ad3b0]:before {\n    margin-top: -9px;\n    margin-left: -9px;\n\n    width: 18px;\n    height: 18px;\n}\n\n.btn-xs.m-progress[_v-762ad3b0]:before {\n    margin-top: -7px;\n    margin-left: -7px;\n\n    width: 14px;\n    height: 14px;\n}\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-762ad3b0", module.exports)
-  } else {
-    hotAPI.update("_v-762ad3b0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            message: "Hello world"
-        };
-    },
-
-    props: ['player'],
-
-    ready: function ready() {
-        console.log;
-    },
-
-
-    methods: {}
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    Suggested Game Here\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <br>\n  <div class=\"alert alert-danger\" role=\"alert\" v-if=\"warning\">\n    {{ warning }}\n  </div>\n  <h1>Search</h1>\n  <p>Search for your steam account, using your vanity URL</p>\n  <div class=\"input-group\">\n    <input type=\"text\" v-model=\"query\" class=\"form-control\" placeholder=\"Search...\" @keyup.enter=\"search()\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-secondary\" type=\"btn\" @click=\"search()\">Go!</button>\n    </span>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-044a0806", module.exports)
+    hotAPI.createRecord("_v-91d572bc", module.exports)
   } else {
-    hotAPI.update("_v-044a0806", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-91d572bc", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}]},{},[7]);
