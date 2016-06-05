@@ -8,26 +8,17 @@ Vue.use(VueRouter);
 
 // App container component
 import App from './components/app.vue'
-// Routes
-import SearchPage from './components/search-page.vue'
-import Player from './components/player.vue'
+import Routes from './routes.js'
 
+// Setup the router
 var router = new VueRouter({
-    hashbang: false,
-    history: true,
-    root: '/app'
+  // Setting up the use the history API instead of hashbanged routes
+  hashbang: false,
+  history: true,
+  root: '/app'
 })
 
-router.map({
-
-    '/search': {
-        component: SearchPage
-    },
-    '/player/:username': {
-        component: Player
-    }
-
-})
+router.map(Routes)
 
 router.start(App, '#app')
 

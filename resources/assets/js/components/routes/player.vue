@@ -1,18 +1,27 @@
 <template>
 <div class="container">
-  <div v-if="player">
-    <avatar-box :player="player"></avatar-box>
-    <pre>
-      {{ player | json 4 }}
-    </pre>
+  <div v-if="player" class="row">
+    <div class="col-sm-3">
+      <avatar-box :player="player"></avatar-box>
+    </div>
+    <div class="col-sm-6">
+      <game-suggestion :player=""></game-suggestion>
+    </div>
   </div>
   <loader v-show="!player" transition="fade"></loader>
+  <div v-if="player" class="card" style="margin-top: 1em;">
+    <div class="card-block">
+      <pre>
+        {{ player | json 4 }}
+      </pre>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
-import Loader from './loader.vue'
-import AvatarBox from './avatar-box.vue'
+import Loader from '../elements/loader.vue'
+import AvatarBox from '../elements/avatar-box.vue'
 
 export default {
   data: function () {

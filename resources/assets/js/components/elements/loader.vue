@@ -15,13 +15,14 @@
 .overlay {
   display: flex;
   align-items: center;
+  pointer-events: none;
   justify-content: center;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  /*background-color: rgba(0, 0, 0, 0.3);*/
 }
 
 .loader:before,
@@ -36,7 +37,7 @@
   animation: load7 1.8s infinite ease-in-out;
 }
 .loader {
-  color: #ffffff;
+  color: #222;
   font-size: 10px;
   margin: 80px auto;
   position: relative;

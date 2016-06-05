@@ -9,7 +9,7 @@
   <div class="container">
     <h1 class="display-3">Pressure</h1>
     <p class="lead">A bit of guidance for your steam collection.</p>
-    <a href="/go" role="button" class="btn btn-primary-outline">Get Started</a>
+    <a href="/app/search" role="button" class="btn btn-primary-outline">Get Started</a>
   </div>
 </div>
 <div class="container">

@@ -1,11 +1,10 @@
 <template>
-<div class="avatar-box" v-if="player" >
-    <div class="avatar-box--image" :class="'avatar-box--' + status">
-        <img :src="player.avatarfull" alt="Player avatar">
-    </div>
-    <div class="avatar-box--info">
+<div class="card" v-if="player" >
+    <img :src="player.avatarfull" class="card-img-top avatar-img" :>
+    <div class="card-block">
         <h2>{{ player.personaname }}</h2>
-        <p>{{ status.charAt(0).toUpperCase() + status.slice(1) }}</p>
+        <span class="status-label" :class="'status-' + status">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</span>
+        <a :href="player.profileurl" target="_blank">View Steam Profile</a>
     </div>
 </div>
 </template>
@@ -56,31 +55,34 @@ export default {
 </script>
 
 <style lang="sass">
-$online-color: blue;
-$playing-color: green;
+$online-color: #509BB9;
+$playing-color: #84AB38;
+$offline-color: #6B6B6B;
 
+.avatar-img {
+    width: 100%;
+    height: auto;
+}
 
-.avatar-box {
+.status-label {
 
-    background-color: white;
+    color: #fff;
+    padding: .4em;
+    margin: 0;
+    clear: both;
+    border-radius: 2px;
 
-    display: flex;
-
-    .avatar-box--image {
-        border: grey solid 3px;
-        border-radius: 5px;
-        margin: 10px;
-
-        &.avatar-box--online {
-            border-color: $online-color;
-        }
-        &.avatar-box--playing {
-            border-color: $playing-color;
-        }
+    &.status-online,
+    &.status-snooze,
+    &.status-away,
+    &.status-busy {
+        background-color: $online-color;
     }
-
-    .avatar-box--info {
-        margin: 24px;
+    &.status-playing {
+        background-color: $playing-color;
+    }
+    &.status-offline {
+        background-color: $offline-color;
     }
 }
 

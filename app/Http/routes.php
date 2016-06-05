@@ -1,35 +1,24 @@
 <?php
 
 use App\Steam\Client as Client;
+use App\Steam\Queries as Queries;
 
-// Route::get('/', function (Client $client) {
-//     // $steamid = $client->getSteamId('Jimmypq');
-//     // $user = $client->getPlayerSummary($steamid);
-//
-//     // return view('home', ['user' => $user]);
-// });
-
-// Route::get('app/{subs?}', [function () {
-//     return view('router-test');
-// }])->where(['subs' => '.*']);
-Route::get('app/{subs?}', [function () {
-    return view('router-test');
-}])->where(['subs' => '.*']);
-
-// Route::get('/dashboard', function() {
-//     return view('dashboard');
-// });
-//
-// Route::get('/login', function() {
-//     return view('login');
-// });
-
-Route::get('/search', function () {
-    return redirect('/app/search')
+Route::get('test', function(Client $client) {
+    dd($client->getSteamId('Jimmqlkqwr'));
 });
 
-Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
+// Home Page
+Route::get('/', function () {
+    return view('router-test');
+});
 
+// Setting up the router to play nice with the vue router for the application
+Route::get('app/{jsroute?}', [function () {
+    return view('router-test');
+}])->where(['jsroute' => '.*']);
+
+// Setup the API routes
+Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
     Route::get('{name}/gamesplayed', function ($name, Client $client) {
         // Get steam id
         $steamid = $client->getSteamId($name);
@@ -62,10 +51,10 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
         return json_encode($response);
     });
 
-	Route::get('player/{name}', function ($name, Client $client) {
+    Route::get('player/{name}', function ($name, Client $client) {
         $steamid = $client->getSteamId($name);
         $player = $client->getPlayerSummary($steamid);
         return json_encode($player);
-	});
+    });
 
 });

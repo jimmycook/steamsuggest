@@ -4584,4 +4584,7 @@ a.bg-danger:focus, a.bg-danger:hover {
 body {
   background-color: #eee; }
 
+.404-panel {
+  background-color: white; }
+
 /*# sourceMappingURL=app.css.map */
