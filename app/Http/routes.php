@@ -9,12 +9,12 @@ use App\Steam\Client as Client;
 //     // return view('home', ['user' => $user]);
 // });
 
-Route::get('/', function() {
-
-    //
-    // return redirect('search');
+// Route::get('app/{subs?}', [function () {
+//     return view('router-test');
+// }])->where(['subs' => '.*']);
+Route::get('app/{subs?}', [function () {
     return view('router-test');
-});
+}])->where(['subs' => '.*']);
 
 // Route::get('/dashboard', function() {
 //     return view('dashboard');
@@ -25,7 +25,7 @@ Route::get('/', function() {
 // });
 
 Route::get('/search', function () {
-    return view('search');
+    return redirect('/app/search')
 });
 
 Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {

@@ -12,9 +12,14 @@ import App from './components/app.vue'
 import SearchPage from './components/search-page.vue'
 import Player from './components/player.vue'
 
-var router = new VueRouter()
+var router = new VueRouter({
+    hashbang: false,
+    history: true,
+    root: '/app'
+})
 
 router.map({
+
     '/search': {
         component: SearchPage
     },
