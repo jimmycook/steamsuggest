@@ -12,7 +12,7 @@ import Routes from './routes.js'
 
 // Setup the router
 var router = new VueRouter({
-  // Setting up the use the history API instead of hashbanged routes
+  // Setting up the use the history API instead of hashbang based routes
   hashbang: false,
   history: true,
   root: '/app'
@@ -21,31 +21,3 @@ var router = new VueRouter({
 router.map(Routes)
 
 router.start(App, '#app')
-
-
-// new Vue({
-//   el: '#app',
-//   components: {
-//     'suggested-game': SuggestedGame,
-//     'avatar-box': AvatarBox,
-//     'played-search': PlayedSearch
-//   },
-//
-//   data: {
-//     player: null
-//   },
-//
-//   ready () {
-//     this.$dispatch('find-player', 'Jimmypq')
-//   },
-//
-//   events: {
-//
-//     'find-player' (vanityUrl) {
-//
-//       this.$http.get(`/api/player/${vanityUrl}`).then(
-//         (res) => {this.player = res.data},
-//         (res) => console.log('Something went wrong...'))
-//     }
-//   }
-// })

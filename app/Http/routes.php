@@ -1,7 +1,7 @@
 <?php
 
 use App\Steam\Client as Client;
-use App\Steam\Queries as Queries;
+use App\Steam\Steamy as Steamy;
 
 Route::get('test', function(Client $client) {
     dd($client->getSteamId('Jimmqlkqwr'));

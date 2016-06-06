@@ -14846,7 +14846,7 @@ _Vue2.default.use(_vueRouter2.default);
 
 // Setup the router
 var router = new _vueRouter2.default({
-  // Setting up the use the history API instead of hashbanged routes
+  // Setting up the use the history API instead of hashbang based routes
   hashbang: false,
   history: true,
   root: '/app'
@@ -14856,34 +14856,7 @@ router.map(_routes2.default);
 
 router.start(_app2.default, '#app');
 
-// new Vue({
-//   el: '#app',
-//   components: {
-//     'suggested-game': SuggestedGame,
-//     'avatar-box': AvatarBox,
-//     'played-search': PlayedSearch
-//   },
-//
-//   data: {
-//     player: null
-//   },
-//
-//   ready () {
-//     this.$dispatch('find-player', 'Jimmypq')
-//   },
-//
-//   events: {
-//
-//     'find-player' (vanityUrl) {
-//
-//       this.$http.get(`/api/player/${vanityUrl}`).then(
-//         (res) => {this.player = res.data},
-//         (res) => console.log('Something went wrong...'))
-//     }
-//   }
-// })
-
-},{"./components/app.vue":8,"./routes.js":16,"Vue":5,"vue-resource":3,"vue-router":4}],8:[function(require,module,exports){
+},{"./components/app.vue":8,"./routes.js":19,"Vue":5,"vue-resource":3,"vue-router":4}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14911,7 +14884,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-35a5c867", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./elements/navbar.vue":12,"vue":5,"vue-hot-reload-api":2}],9:[function(require,module,exports){
+},{"./elements/navbar.vue":13,"vue":5,"vue-hot-reload-api":2}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.dismiss-alert[_v-9d526424] {\n    float: right;\n    cursor: pointer;\n}\n\n.fade-transition[_v-9d526424] {\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n}\n\n.fade-enter[_v-9d526424], .fade-leave[_v-9d526424] {\n  opacity: 0;\n}\n\n")
 'use strict';
@@ -15019,6 +14992,31 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: {
+        player: {
+            default: null
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-731bed5e", module.exports)
+  } else {
+    hotAPI.update("_v-731bed5e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],12:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.overlay {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  pointer-events: none;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  /*background-color: rgba(0, 0, 0, 0.3);*/ }\n\n/* line 15, stdin */\n.loader:before,\n.loader:after,\n.loader {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out; }\n\n/* line 26, stdin */\n.loader {\n  color: #222;\n  font-size: 10px;\n  margin: 80px auto;\n  position: relative;\n  text-indent: -9999em;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s; }\n\n/* line 38, stdin */\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s; }\n\n/* line 43, stdin */\n.loader:after {\n  left: 3.5em; }\n\n/* line 46, stdin */\n.loader:before,\n.loader:after {\n  content: '';\n  position: absolute;\n  top: 0; }\n\n@-webkit-keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n\n@keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em; }\n  40% {\n    box-shadow: 0 2.5em 0 0; } }\n")
 "use strict";
@@ -15043,7 +15041,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1b610071", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],12:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.navbar {\n    margin-bottom: 1em;\n}\n")
 "use strict";
@@ -15068,7 +15066,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-05e2b424", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n    <div class=\"card\">\n        <div class=\"card-block\">\n            <h1>Sorry, the view you were looking for wasn't found...</h1>\n            <a v-link=\"{ path: '/' }\">Click here to continue</a>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -15080,9 +15078,41 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-71b7532d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2}],14:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  created: function created() {
+    var _this = this;
+
+    var username = this.params.username;
+    console.log(this);
+    return;
+    this.$http.get('/api/player/' + username).then(function (res) {
+      if (res.data) _this.$router.go('/player/' + _this.username);
+    }, function (res) {
+      return console.log('Something went wrong...');
+    });
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n    <div class=\"card\">\n        <div class=\"card-block\">\n            <h1>The player {{ params.username }} wasn't found</h1>\n            <a v-link=\"{ path: '/' }\">Click here to continue</a>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-44dcf0f2", module.exports)
+  } else {
+    hotAPI.update("_v-44dcf0f2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15097,13 +15127,16 @@ var _avatarBox = require('../elements/avatar-box.vue');
 
 var _avatarBox2 = _interopRequireDefault(_avatarBox);
 
+var _gameSuggestion = require('../elements/game-suggestion.vue');
+
+var _gameSuggestion2 = _interopRequireDefault(_gameSuggestion);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   data: function data() {
     return {
       player: null
-
     };
   },
 
@@ -15123,17 +15156,17 @@ exports.default = {
 
 
   components: {
-    Loader: _loader2.default, AvatarBox: _avatarBox2.default
+    Loader: _loader2.default, AvatarBox: _avatarBox2.default, GameSuggestion: _gameSuggestion2.default
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <div v-if=\"player\" class=\"row\">\n    <div class=\"col-sm-3\">\n      <avatar-box :player=\"player\"></avatar-box>\n    </div>\n    <div class=\"col-sm-6\">\n      <game-suggestion :player=\"\"></game-suggestion>\n    </div>\n  </div>\n  <loader v-show=\"!player\" transition=\"fade\"></loader>\n  <div v-if=\"player\" class=\"card\" style=\"margin-top: 1em;\">\n    <div class=\"card-block\">\n      <pre>        {{ player | json 4 }}\n      </pre>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <div v-if=\"player\" class=\"row\">\n    <div class=\"col-sm-3\">\n      <avatar-box :player=\"player\"></avatar-box>\n    </div>\n    <div class=\"col-sm-6\">\n      <game-suggestion :player=\"\"></game-suggestion>\n      <router-view :player=\"player\"></router-view>\n    </div>\n  </div>\n  <loader v-show=\"!player\" transition=\"fade\"></loader>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n"] = false
+    __vueify_insert__.cache["\n.fade-transition {\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n\n.fade-enter, .fade-leave {\n  opacity: 0;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -15142,7 +15175,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-298b60e8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../elements/avatar-box.vue":10,"../elements/loader.vue":11,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
+},{"../elements/avatar-box.vue":10,"../elements/game-suggestion.vue":11,"../elements/loader.vue":12,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15188,7 +15221,38 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-43f55ed3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../elements/alert.vue":9,"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
+},{"../elements/alert.vue":9,"vue":5,"vue-hot-reload-api":2}],18:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: {
+        player: {
+            default: null
+        }
+    },
+
+    methods: {
+        log: function log() {
+            console.log(this.player);
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <button @click=\"log()\" class=\"btn btn-primary\">Log</button>\n    <pre v-show=\"player\">{{ player | json 4}}</pre>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-10856088", module.exports)
+  } else {
+    hotAPI.update("_v-10856088", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15207,27 +15271,37 @@ var _notFound = require('./components/routes/not-found.vue');
 
 var _notFound2 = _interopRequireDefault(_notFound);
 
+var _test = require('./components/test.vue');
+
+var _test2 = _interopRequireDefault(_test);
+
+var _playerNotFound = require('./components/routes/player-not-found.vue');
+
+var _playerNotFound2 = _interopRequireDefault(_playerNotFound);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
-  // '/search': {
-  //   component: SearchPage
-  // },
-  // '': {
-  //   component: SearchPage
-  // },
-  // '/': {
-  //   component: SearchPage
-  // },
   '/player/:username': {
-    component: _player2.default
+    component: _player2.default,
+
+    subRoutes: {
+      // '/': {
+      //   component: {
+      //     template: '<p>Default sub view</p>'
+      //   }
+      // },
+      '/test': {
+        component: _test2.default
+      }
+    }
   },
   '*': {
     component: _search2.default
   }
 }; // Import components
 
-},{"./components/routes/not-found.vue":13,"./components/routes/player.vue":14,"./components/routes/search.vue":15}]},{},[7]);
+},{"./components/routes/not-found.vue":14,"./components/routes/player-not-found.vue":15,"./components/routes/player.vue":16,"./components/routes/search.vue":17,"./components/test.vue":18}]},{},[7]);
 
 //# sourceMappingURL=app.js.map

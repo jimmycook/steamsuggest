@@ -11,8 +11,17 @@
 
 <script>
 export default {
-    ready () {
-
+    created () {
+        const username = this.params.username
+        console.log(this)
+        return
+        this.$http.get(`/api/player/${username}`).then(
+          (res) => {
+            if(res.data)
+              this.$router.go('/player/' + this.username)
+            },
+          (res) => console.log('Something went wrong...')
+        )
     }
 }
 

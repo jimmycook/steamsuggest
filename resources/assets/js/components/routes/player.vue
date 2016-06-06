@@ -6,29 +6,23 @@
     </div>
     <div class="col-sm-6">
       <game-suggestion :player=""></game-suggestion>
+      <router-view :player="player"></router-view>
     </div>
   </div>
   <loader v-show="!player" transition="fade"></loader>
-  <div v-if="player" class="card" style="margin-top: 1em;">
-    <div class="card-block">
-      <pre>
-        {{ player | json 4 }}
-      </pre>
-    </div>
-  </div>
+
 </div>
 </template>
 
 <script>
 import Loader from '../elements/loader.vue'
 import AvatarBox from '../elements/avatar-box.vue'
+import GameSuggestion from '../elements/game-suggestion.vue'
 
 export default {
   data: function () {
     return {
       player: null
-
-
     }
   },
 
@@ -44,7 +38,7 @@ export default {
   },
 
   components: {
-    Loader, AvatarBox
+    Loader, AvatarBox, GameSuggestion
   }
 }
 </script>
@@ -52,7 +46,6 @@ export default {
 <style media="screen">
   .fade-transition {
     transition: opacity .3s ease;
-
   }
 
   .fade-enter, .fade-leave {
