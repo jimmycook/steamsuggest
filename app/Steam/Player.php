@@ -36,11 +36,12 @@ class Player
         if ($this->steamid) {
             $this->info = $this->client->getPlayerSummary($this->steamid);
 
-            if (isset($this->info->gameid)) {
-                if ($withGame && $this->info->gameid) {
-                    $this->info->ingame = $this->client->getGameInfo($this->info->gameid);
-                }
-            }                            
+            // not used anymore
+            // if (isset($this->info->gameid)) {
+            //     if ($withGame && $this->info->gameid) {
+            //         // $this->info->ingame = $this->client->getGameInfo($this->info->gameid);
+            //     }
+            // }
         }
 
         return $this;
@@ -59,7 +60,7 @@ class Player
             $player['info'] = $this->info;
             $player['games'] = $this->games;
             $player['url'] = $this->url;
-            $player['currentgame'] = $this->currentgame;
+            // $player['currentgame'] = $this->currentgame;
             return $player;
         }
         return ['status' => false];

@@ -19,19 +19,17 @@ export default {
 
     computed: {
         playing () {
-            if (this.player.gameid)  {
-                console.log(this.player)
-                return this.player.gameid
+            if (this.player.info.gameid)  {
+                return this.player.info.gameid
             }
             return false;
         },
 
         status () {
-            if (!this.player) return;
+            if (!this.player.info) return;
+            if (this.player.info.gameid) return 'playing';
 
-            if (this.player.gameid) return 'playing';
-
-            switch (this.player.personastate) {
+            switch (this.player.info.personastate) {
                 case 0:
                     return 'offline'
                     break

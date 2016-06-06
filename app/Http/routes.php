@@ -58,6 +58,6 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
     });
 
     Route::get('test', function(Player $player, Client $client) {
-        return json_encode($client->getGameInfo(300));        
+        return json_encode($client->getGameInfo(300));
     });
 });
