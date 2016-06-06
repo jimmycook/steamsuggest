@@ -1,11 +1,13 @@
 <?php
 
 use App\Steam\Client as Client;
-use App\Steam\Steamy as Steamy;
+use App\Steam\Player as Player;
 
-Route::get('test', function(Client $client) {
-    dd($client->getSteamId('Jimmqlkqwr'));
+Route::get('test', function(Player $player, Client $client) {
+    dd( $client->getGameInfo(10) );
+    // return $return;
 });
+
 
 // Home Page
 Route::get('/', function () {
@@ -51,10 +53,11 @@ Route::group(['middlewear' => 'api', 'prefix' => 'api'], function() {
         return json_encode($response);
     });
 
-    Route::get('player/{name}', function ($name, Client $client) {
-        $steamid = $client->getSteamId($name);
-        $player = $client->getPlayerSummary($steamid);
-        return json_encode($player);
+    Route::get('player/{name}', function ($name, Player $player) {
+        return $player->find($name)->getAll();
     });
 
+    Route::get('test', function(Player $player, Client $client) {
+        return json_encode($client->getGameInfo(300));        
+    });
 });

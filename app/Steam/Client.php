@@ -25,8 +25,13 @@ class Client {
         return false;
     }
 
-    public function getOwnedGames($steamid) {
-        $this->call('IPlayerService', 'GetOwnedGames', '0001', ['steamid' => $steamid]);
+    public function getGameInfo($appid) {
+        $this->call('ISteamUserStats', 'GetSchemaForGame', '2', ['appid' => $appid]);
+        return $this->getData();
+    }
+
+    public function getOwnedGames($steamid, $withappinfo = true) {
+        $this->call('IPlayerService', 'GetOwnedGames', '0001', ['steamid' => $steamid, 'include_appinfo' => $withappinfo]);
 
         return $this->getData();
     }
@@ -49,7 +54,10 @@ class Client {
             throw new \Exception('No response');
         }
 
-        return $this->response->body->response;
+        if (isset($this->response->body->response))
+            return $this->response->body->response;
+
+        return $this->response->body;
     }
 
     /**

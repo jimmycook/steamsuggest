@@ -4587,4 +4587,10 @@ body {
 .404-panel {
   background-color: white; }
 
+.fade-transition {
+  transition: all .3s ease; }
+
+.fade-enter, .fade-leave {
+  opacity: 0; }
+
 /*# sourceMappingURL=app.css.map */

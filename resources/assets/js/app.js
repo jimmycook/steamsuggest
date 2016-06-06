@@ -18,6 +18,8 @@ var router = new VueRouter({
   root: '/app'
 })
 
+// Bind the routes
 router.map(Routes)
 
+// Start the application on the div #app
 router.start(App, '#app')

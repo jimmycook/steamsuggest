@@ -1,10 +1,10 @@
 <template>
 <div class="card" v-if="player" >
-    <img :src="player.avatarfull" class="card-img-top avatar-img" :>
+    <img :src="player.info.avatarfull" class="card-img-top avatar-img" :>
     <div class="card-block">
-        <h2>{{ player.personaname }}</h2>
+        <h2>{{ player.info.personaname }}</h2>
         <span class="status-label" :class="'status-' + status">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</span>
-        <a :href="player.profileurl" target="_blank">View Steam Profile</a>
+        <a :href="player.info.profileurl" target="_blank">View Steam Profile</a>
     </div>
 </div>
 </template>

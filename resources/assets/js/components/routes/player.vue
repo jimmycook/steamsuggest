@@ -1,16 +1,19 @@
 <template>
 <div class="container">
-  <div v-if="player" class="row">
+  <div v-if="player.status" class="row">
     <div class="col-sm-3">
       <avatar-box :player="player"></avatar-box>
     </div>
     <div class="col-sm-6">
       <game-suggestion :player=""></game-suggestion>
       <router-view :player="player"></router-view>
+      <pre>{{ player | json }}</pre>
     </div>
   </div>
+  <div class="card" v-if="!player.status">
+    <div class="card-block"><h2>Player not found...</h2></div>
+  </div>
   <loader v-show="!player" transition="fade"></loader>
-
 </div>
 </template>
 
@@ -22,18 +25,18 @@ import GameSuggestion from '../elements/game-suggestion.vue'
 export default {
   data: function () {
     return {
-      player: null
+    }
+  },
+
+  props: {
+    player: {
+      default: null
     }
   },
 
   ready () {
-    const username = this.$route.params.username
-
-    if (username) {
-      this.$http.get(`/api/player/${username}`).then(
-        (res) => { this.player = res.data },
-        (res) => console.log('Something went wrong...')
-      )
+    if (!this.player && this.$route.params.username) {
+      this.$dispatch('search-for', this.$route.params.username)
     }
   },
 

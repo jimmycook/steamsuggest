@@ -14852,8 +14852,10 @@ var router = new _vueRouter2.default({
   root: '/app'
 });
 
+// Bind the routes
 router.map(_routes2.default);
 
+// Start the application on the div #app
 router.start(_app2.default, '#app');
 
 },{"./components/app.vue":8,"./routes.js":19,"Vue":5,"vue-resource":3,"vue-router":4}],8:[function(require,module,exports){
@@ -14870,10 +14872,30 @@ var _navbar2 = _interopRequireDefault(_navbar);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  components: { Navbar: _navbar2.default }
+  data: function data() {
+    return {
+      player: null
+    };
+  },
+
+
+  components: { Navbar: _navbar2.default },
+
+  events: {
+    'search-for': function searchFor(username) {
+      var _this = this;
+
+      this.$http.get('/api/player/' + username).then(function (res) {
+        _this.player = res.data;
+      }, function (res) {
+        return console.log('Something went wrong...');
+      });
+    }
+  }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <navbar></navbar>\n  <router-view></router-view>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <navbar></navbar>\n  <router-view :player.sync=\"player\" +=\"\" transition=\"fade\" transition-mode=\"out-in\"></router-view>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14976,7 +14998,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"card\" v-if=\"player\">\n    <img :src=\"player.avatarfull\" class=\"card-img-top avatar-img\" :=\"\">\n    <div class=\"card-block\">\n        <h2>{{ player.personaname }}</h2>\n        <span class=\"status-label\" :class=\"'status-' + status\">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</span>\n        <a :href=\"player.profileurl\" target=\"_blank\">View Steam Profile</a>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"card\" v-if=\"player\">\n    <img :src=\"player.info.avatarfull\" class=\"card-img-top avatar-img\" :=\"\">\n    <div class=\"card-block\">\n        <h2>{{ player.info.personaname }}</h2>\n        <span class=\"status-label\" :class=\"'status-' + status\">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</span>\n        <a :href=\"player.info.profileurl\" target=\"_blank\">View Steam Profile</a>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -15135,22 +15157,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   data: function data() {
-    return {
-      player: null
-    };
+    return {};
+  },
+
+  props: {
+    player: {
+      default: null
+    }
   },
 
   ready: function ready() {
-    var _this = this;
-
-    var username = this.$route.params.username;
-
-    if (username) {
-      this.$http.get('/api/player/' + username).then(function (res) {
-        _this.player = res.data;
-      }, function (res) {
-        return console.log('Something went wrong...');
-      });
+    if (!this.player && this.$route.params.username) {
+      this.$dispatch('search-for', this.$route.params.username);
     }
   },
 
@@ -15160,7 +15178,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <div v-if=\"player\" class=\"row\">\n    <div class=\"col-sm-3\">\n      <avatar-box :player=\"player\"></avatar-box>\n    </div>\n    <div class=\"col-sm-6\">\n      <game-suggestion :player=\"\"></game-suggestion>\n      <router-view :player=\"player\"></router-view>\n    </div>\n  </div>\n  <loader v-show=\"!player\" transition=\"fade\"></loader>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <div v-if=\"player.status\" class=\"row\">\n    <div class=\"col-sm-3\">\n      <avatar-box :player=\"player\"></avatar-box>\n    </div>\n    <div class=\"col-sm-6\">\n      <game-suggestion :player=\"\"></game-suggestion>\n      <router-view :player=\"player\"></router-view>\n      <pre>{{ player | json }}</pre>\n    </div>\n  </div>\n  <div class=\"card\" v-if=\"!player.status\">\n    <div class=\"card-block\"><h2>Player not found...</h2></div>\n  </div>\n  <loader v-show=\"!player\" transition=\"fade\"></loader>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -15176,25 +15194,44 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../elements/avatar-box.vue":10,"../elements/game-suggestion.vue":11,"../elements/loader.vue":12,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _alert = require("../elements/alert.vue");
+var _alert = require('../elements/alert.vue');
 
 var _alert2 = _interopRequireDefault(_alert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-
   components: { Alert: _alert2.default },
+
+  props: {
+    player: {
+      default: null
+    }
+  },
+
+  watch: {
+    'player': function player(val, old) {
+      if (this.searching && val != old && val.status) {
+        this.$router.go('/player/' + this.query);
+      } else if (this.searching && val != old && !val.status) {
+        this.searching = false;
+        this.buttonText = 'Go!';
+        this.alertVisible = true;
+      }
+    }
+  },
 
   data: function data() {
     return {
       query: "",
+      searching: false,
+      buttonText: 'Go!',
       alertVisible: false
     };
   },
@@ -15202,7 +15239,9 @@ exports.default = {
   methods: {
     search: function search() {
       if (this.query) {
-        this.$router.go("/player/" + this.query);
+        this.searching = true;
+        this.buttonText = 'Searching...';
+        this.$dispatch('search-for', this.query);
       } else {
         this.alertVisible = true;
       }
@@ -15210,7 +15249,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <alert :visible.sync=\"alertVisible\" type=\"warning\">\n    Please enter a search query.\n  </alert>\n  <div class=\"card\">\n\n    <div class=\"card-block\">\n      <h2 class=\"card-title\">Search</h2>\n\n      <p class=\"card-text\">Search for your steam account, using your vanity URL</p>\n\n      <div class=\"input-group\">\n        <input type=\"text\" v-model=\"query\" class=\"form-control\" placeholder=\"Search...\" @keyup.enter=\"search()\">\n        <span class=\"input-group-btn\">\n          <button class=\"btn btn-secondary\" type=\"btn\" @click=\"search()\">Go!</button>\n        </span>\n      </div>\n    </div>\n  </div>\n\n</div>\n\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container\">\n  <alert :visible.sync=\"alertVisible\" type=\"warning\">\n    Please fix your search query to continue.\n  </alert>\n  <div class=\"card\">\n\n    <div class=\"card-block\">\n      <h2 class=\"card-title\">Search</h2>\n\n      <p class=\"card-text\">Search for your steam account, using your vanity URL</p>\n\n      <div class=\"input-group\">\n        <input type=\"text\" v-model=\"query\" class=\"form-control\" placeholder=\"Search...\" @keyup.enter=\"search()\" :disabled=\"searching\">\n        <span class=\"input-group-btn\">\n          <button class=\"btn btn-secondary\" type=\"btn\" @click=\"search()\">{{ buttonText }}</button>\n        </span>\n      </div>\n    </div>\n  </div>\n\n</div>\n\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
