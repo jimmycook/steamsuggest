@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 import App from './components/app.vue'
 import Routes from './routes.js'
 
+
 // Setup the router
 var router = new VueRouter({
   // Setting up the use the history API instead of hashbang based routes

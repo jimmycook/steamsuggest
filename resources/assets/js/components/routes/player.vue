@@ -7,10 +7,10 @@
         <currently-playing v-if="currentGame"
                            :game="currentGame"></currently-playing>
       </div>
-      <div class="col-sm-6">
-        <game-suggestion :player=""></game-suggestion>
-        <router-view :player="player"></router-view>
-        <pre>{{ player | json }}</pre>
+      <div class="col-sm-9">
+
+        <game-suggestion :player="player"></game-suggestion>
+        <router-view :player="player"></router-view>        
       </div>
     </div>
     <div class="card" v-if="!player.status">

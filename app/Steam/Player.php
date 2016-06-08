@@ -32,24 +32,24 @@ class Player
 
     }
 
-    public function info($withGame = true) {
+    public function info() {
         if ($this->steamid) {
             $this->info = $this->client->getPlayerSummary($this->steamid);
-
-            // not used anymore
-            // if (isset($this->info->gameid)) {
-            //     if ($withGame && $this->info->gameid) {
-            //         // $this->info->ingame = $this->client->getGameInfo($this->info->gameid);
-            //     }
-            // }
         }
 
         return $this;
     }
 
     public function games() {
-        if ($this->steamid)
+        if ($this->steamid) {
             $this->games = $this->client->getOwnedGames($this->steamid);
+            $this->games->played = 0;
+            foreach ($this->games->games as $game) {
+                if ($game->playtime_forever > 0)
+                    $this->games->played++;
+            }
+
+        }
 
         return $this;
     }
